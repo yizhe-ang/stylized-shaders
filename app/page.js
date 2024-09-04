@@ -6,7 +6,7 @@ import { Canvas } from "@react-three/fiber";
 export default function Home() {
   return (
     <div className="fixed inset-0">
-      <Canvas>
+      <Canvas shadows>
         <Experience />
       </Canvas>
     </div>

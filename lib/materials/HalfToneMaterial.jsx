@@ -1,4 +1,4 @@
-// https://threejs-journey.com/lessons/halftone-shading-shaders
+// TODO: https://threejs-journey.com/lessons/halftone-shading-shaders
 
 import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
