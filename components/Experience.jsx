@@ -11,6 +11,7 @@ import ComicDotted from "@/lib/effects/ComicDotted";
 import Moebius from "@/lib/effects/Moebius";
 import { useMemo, useRef } from "react";
 import CustomNormalMaterial from "@/lib/materials/CustomNormalMaterial";
+import Retro from "@/lib/effects/Retro";
 
 extend({ ToonMaterial, HalfToneMaterial, CrossHatchingMaterial });
 
@@ -37,28 +38,28 @@ const Experience = () => {
 
   const normalRenderTarget = useFBO();
 
-  useFrame((state) => {
-    const { gl, scene, camera } = state;
+  // useFrame((state) => {
+  //   const { gl, scene, camera } = state;
 
-    // Render depth buffer
-    gl.setRenderTarget(depthRenderTarget);
-    gl.render(scene, camera);
+  //   // Render depth buffer
+  //   gl.setRenderTarget(depthRenderTarget);
+  //   gl.render(scene, camera);
 
-    // Render normal buffer
-    const originalSceneMaterial = scene.overrideMaterial;
+  //   // Render normal buffer
+  //   const originalSceneMaterial = scene.overrideMaterial;
 
-    gl.setRenderTarget(normalRenderTarget);
+  //   gl.setRenderTarget(normalRenderTarget);
 
-    scene.matrixWorldNeedsUpdate = true;
-    scene.overrideMaterial = CustomNormalMaterial;
-    scene.overrideMaterial.uniforms.lightPosition.value = lightPosition;
+  //   scene.matrixWorldNeedsUpdate = true;
+  //   scene.overrideMaterial = CustomNormalMaterial;
+  //   scene.overrideMaterial.uniforms.lightPosition.value = lightPosition;
 
-    gl.render(scene, camera);
+  //   gl.render(scene, camera);
 
-    scene.overrideMaterial = originalSceneMaterial;
+  //   scene.overrideMaterial = originalSceneMaterial;
 
-    gl.setRenderTarget(null);
-  });
+  //   gl.setRenderTarget(null);
+  // });
 
   return (
     <>
@@ -71,9 +72,10 @@ const Experience = () => {
         far={200}
       />
 
-      <color attach="background" args={["#1B43BA"]} />
+      {/* <color attach="background" args={["#1B43BA"]} /> */}
+      <color attach="background" args={["#000000"]} />
 
-      <ambientLight intensity={0.2} color="#FFFFFF" />
+      {/* <ambientLight intensity={0.2} color="#FFFFFF" />
       <directionalLight
         castShadow
         position={lightPosition}
@@ -81,8 +83,17 @@ const Experience = () => {
         intensity={25}
         color="#fff"
         target={ground.current}
-      />
-      <mesh castShadow receiveShadow position={[-1, 2, 1]}>
+      /> */}
+
+      <ambientLight intensity={0.25} />
+      <directionalLight position={[0, 10, 5]} intensity={10.5} />
+
+      <mesh receiveShadow castShadow>
+        <torusKnotGeometry args={[1, 0.25, 128, 100]} />
+        <meshStandardMaterial color="cyan" />
+      </mesh>
+
+      {/* <mesh castShadow receiveShadow position={[-1, 2, 1]}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshStandardMaterial color="orange" />
       </mesh>
@@ -103,16 +114,17 @@ const Experience = () => {
       >
         <planeGeometry args={[10, 10, 100, 100]} />
         <meshStandardMaterial color="white" />
-      </mesh>
+      </mesh> */}
 
-      <EffectComposer toneMapping>
+      <EffectComposer>
         {/* <ComicDotted
           resolution={new THREE.Vector2(size.width * dpr, size.height * dpr)}
         /> */}
-        <Moebius
+        {/* <Moebius
           sceneDepth={depthRenderTarget.depthTexture}
           sceneNormal={normalRenderTarget.texture}
-        />
+        /> */}
+        <Retro />
         {/* <ToneMapping /> */}
       </EffectComposer>
     </>
